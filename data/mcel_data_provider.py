@@ -291,34 +291,10 @@ class MCELdataProvider(BaseDataProvider):
         pos_error_correct_floor, pos_error_wrong_floor, _, _ = compute_acc_of_hit_and_no_hit(
             mask_floor, y_pred, y_true_grid_enc)
 
-        # correct_idx_f = np.where(mask_floor)[0]
-        # wrong_idx_f = np.where(~mask_floor)[0]
-        #
-        # pos_error_correct_floor = np.mean(
-        #     np.linalg.norm(
-        #         y_pred[correct_idx_f, :2] - y_true_grid_enc[correct_idx_f, :2],
-        #         axis=1))
-        #
-        # pos_error_wrong_floor = np.mean(
-        #     np.linalg.norm(y_pred[wrong_idx_f, :2] - y_true_grid_enc[wrong_idx_f, :2],
-        #                    axis=1))
-
         mask_grid = y_pred[:, 4] == y_true_grid_enc[:, 4]
 
         pos_error_correct_grid, pos_error_wrong_grid, correct_idx_g, wrong_idx_g = compute_acc_of_hit_and_no_hit(
             mask_grid, y_pred, y_true_grid_enc)
-
-        # correct_idx_g = np.where(mask_grid)[0]
-        # wrong_idx_g = np.where(~mask_grid)[0]
-        #
-        # pos_error_correct_grid = np.mean(
-        #     np.linalg.norm(
-        #         y_pred[correct_idx_g, :2] - y_true_grid_enc[correct_idx_g, :2],
-        #         axis=1))
-        #
-        # pos_error_wrong_grid = np.mean(
-        #     np.linalg.norm(y_pred[wrong_idx_g, :2] - y_true_grid_enc[wrong_idx_g, :2],
-        #                    axis=1))
 
         # obtain augmented grid cell ids
         y_gc_aug = self.get_data(self.multi_grid_cell_labels, 'test')

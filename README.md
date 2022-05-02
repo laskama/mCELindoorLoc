@@ -1,12 +1,23 @@
 ## Multi-Task Neural Network for Position Estimation in Large-Scale Indoor Environments
-![](img/mCEL.png)
 
 This repository holds the implementation of the neural network model for multi-task indoor localization (building/floor/position)
 estimation in a single forward pass, which was proposed in:
 
 M. Laska and J. Blankenbach, "Multi-Task Neural Network for Position Estimation in Large-Scale Indoor Environments," in IEEE Access, vol. 10, pp. 26024-26032, 2022, doi: [10.1109/ACCESS.2022.3156579](https://ieeexplore.ieee.org/document/9727182). 
 
-It is demonstrated how to apply it on the **giaIndoorLoc** dataset as described in the paper [VI-SLAM2tag](), in which the dataset was introduced together with its generation procedure.
+The network simultaneously classifies a grid cell and perform within grid cell regression to obtain a final position estimate. This neural network architecture for this is as follows:
+![caption](img/mCEL_arch.png)
+This allows for obtaining a floor/building classification (by the location of the classified grid cell) as well as a precise position estimate via the regression head via a single forward 
+pass of the network. The combination of grid cell classification and within grid cell regression is also more accurate than directly performing regression over the entire floor of a given building as
+demonstrated in the paper.
+
+To prevent large errors in case of failures of the grid cell classification head, we introduced the multi-cell encoding learning (m-CEL) technique.
+The network is supplied with several redundant encodings by letting the encoding grid slightly overlap. 
+![Test caption](img/mCEL.png)
+Via m-CEL the network is guided towards also learning the alternative encoding, such that the regression head produces a reasonable estimate in case that the classification head classifies an alternative grid-cell. 
+This further improves the accuracy of the final position estimate.
+
+In this repository it is demonstrated how to apply the proposed model on the **giaIndoorLoc** dataset as described in the paper [VI-SLAM2tag](), in which the dataset was introduced together with its generation procedure.
 
 ### Installation
 
