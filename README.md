@@ -1,5 +1,5 @@
 ### Multi-Task Neural Network for Position Estimation in Large-Scale Indoor Environments
-![](img/mCEL_ga_v2.png)
+![](mCEL.png)
 
 This repository holds the implementation of the neural network model for multi-task indoor localization (building/floor/position)
 estimation in a single forward pass, which was proposed in:
