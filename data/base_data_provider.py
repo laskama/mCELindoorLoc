@@ -1,3 +1,5 @@
+import pickle
+
 from sklearn.model_selection import train_test_split, KFold
 from sklearn.preprocessing import StandardScaler
 import numpy as np
@@ -220,3 +222,17 @@ class BaseDataProvider:
         self.num_folds = kf.get_n_splits(self.rss)
 
         return self
+
+    def store(self, filename):
+        with open(filename, 'wb') as f:
+            pickle.dump(self, f)
+
+    @staticmethod
+    def load(filename):
+        try:
+            with open(filename, 'rb') as f:
+                dp = pickle.load(f)
+        except FileNotFoundError:
+            return None
+
+        return dp

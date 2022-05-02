@@ -1,5 +1,5 @@
 ## Multi-Task Neural Network for Position Estimation in Large-Scale Indoor Environments
-![](mCEL.png)
+![](img/mCEL.png)
 
 This repository holds the implementation of the neural network model for multi-task indoor localization (building/floor/position)
 estimation in a single forward pass, which was proposed in:
@@ -27,13 +27,23 @@ Afterwards the pipelines specified within the config file can be executed via
 python pipeline.py -c path/to/config.yml
 ```
 
+### Visualization of predictions
+The predictions of the models can be visualized and displayed along with the ground truth position for each fingerprint of the test partition of the dataset.
+Just add the flag ```--visualize_predictions``` when executing a pipeline as
+```shell
+python pipeline.py -c path/to/config.yml --visualize_predictions
+```
+For each prediction a plotting window such as  
+![](img/example.png)
+will open. Once the window is closed, the predictions for the next fingerprint of the test dataset will be shown and so on.
+
 ### Reproduce results of VI-SLAM2tag paper
 
 In order to reproduce the results from the VI-SLAM2tag paper, the pre-trained model weights have to be downloaded [here](https://www.dropbox.com/sh/m6m0ar69t8pftg6/AAAi18FfTR93pIJGJE8Uq8pga?dl=0), place the 
 ```exp``` folder within the root of the directory and execute the script ```run_exp.sh```.
 You can also set the ```pretrained: False``` in the ```default_params.py``` file and train the model from scratch.
 Note that this might result in slightly different results as the training is dependent on the hardware and the tensorflow version.
-The pretrained models have been obtained via tensorflow==2.7.0 trained on a Macbook Pro with M1Pro chip (CPU-only).
+The pretrained models have been obtained via tensorflow==2.8.0 trained on a Macbook Pro with M1Pro chip (CPU-only).
 
 ### Model and dataset extension
 The repository has been designed to also provide easy integration with other datasets and models.

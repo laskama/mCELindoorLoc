@@ -12,6 +12,7 @@ import tensorflow as tf
 from utils.definitions import get_project_root
 from model.model_factory import get_model
 from utils.tf_utils import set_seed
+from visualization.visualize_prediction import visualize_output
 
 disable_eager_execution()
 tf.config.experimental.set_visible_devices([], 'GPU')
@@ -34,21 +35,21 @@ def run_model(model, fit=True):
     return metrics, polys, floor_pred
 
 
-def execute_pipeline(model_params, dataset_params, base_dir, seed_val=1):
+def execute_pipeline(model_params, dataset_params, base_seed_dir, seed_val=1):
     set_seed(seed_val, gpu_reproducability=True)
 
     m_type = model_params['type']
 
     dp = get_data_provider(dataset_params, m_type)
 
-    model = get_model(model_params, base_dir, dp)
+    model = get_model(model_params, base_seed_dir, dp)
 
     metrics, polys, floor_pred = run_model(model, fit=not model.pr.get_param('pretrained'))
 
     return polys, floor_pred, dp, metrics
 
 
-def execute_pipelines(conf_file):
+def execute_pipelines(conf_file, visualize_predictions=False):
     with open(conf_file) as conf:
         d = yaml.safe_load(conf)
 
@@ -59,23 +60,25 @@ def execute_pipelines(conf_file):
     metrics_seed = []
     for s_val in seed_vals:
 
-        base_dir = d['dir']['base'] + str(s_val) + '/'
+        base_dir = d['dir']['base']
+        base_seed_dir = base_dir + str(s_val) + '/'
 
-        setup_directories(base_dir)
+        setup_directories(base_seed_dir)
 
-        with open(base_dir + os.path.basename(conf_file), 'w') as f:
+        with open(base_seed_dir + os.path.basename(conf_file), 'w') as f:
             yaml.dump(d, f)
 
+        model_names = []
         model_polys = []
         floor_preds = []
         metrics = {}
 
         for model in d['models']:
             polys, floor_pred, dp, m = execute_pipeline(
-                model, dataset_params=d['data'], base_dir=base_dir,
-                seed_val=s_val)
+                model, dataset_params=d['data'], base_seed_dir=base_seed_dir, seed_val=s_val)
             model_polys += [polys]
             floor_preds += [floor_pred]
+            model_names += [model['name']]
 
             metrics[model['name']] = m
 
@@ -84,6 +87,9 @@ def execute_pipelines(conf_file):
             print("{}: {}".format(k, m_print))
 
         metrics_seed += [metrics]
+
+        if visualize_predictions:
+            visualize_output(model_polys, floor_preds[0], model_names, dp=dp, shuffle=True, seq_ids=[643, 720])
 
     result_file = "metrics.pickle"
     if 'result_file' in d['dir']:
@@ -99,6 +105,9 @@ if __name__ == '__main__':
 
     parser.add_argument('-c', help=".yaml config file")
 
+    parser.add_argument('--visualize_predictions', action='store_true',
+                        help="Whether to visualize the output of the models")
+
     args = parser.parse_args()
 
-    execute_pipelines(args.c)
+    execute_pipelines(args.c, visualize_predictions=args.visualize_predictions)

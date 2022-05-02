@@ -1,3 +1,4 @@
+from data.base_data_provider import BaseDataProvider
 from data.gia_vslam_data_connector import GiaVSLAMdataConnector
 from data.mcel_data_provider import MCELdataProvider
 from data.reg_data_provider import RegDataProvider

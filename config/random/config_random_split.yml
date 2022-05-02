@@ -71,4 +71,5 @@ models:
 
 dir:
   base: exp/gia_vslam/device/random_split/
+  dp_file: dp.pickle
   result_file: metrics.pickle
