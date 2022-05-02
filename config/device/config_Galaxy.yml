@@ -1,0 +1,77 @@
+seed: [1]
+
+data:
+  dataset: gia_vslam
+  params:
+    val: 0.1
+
+    # grid encoding
+    grid_size: 10
+    padding_ratio: 0.3
+
+    #min_max, standard, powed
+    scaling: min_max
+
+    # ground truth construction for OGC
+    class_pad: True
+    reg_pad: True
+    weighted_grid_labels: False
+
+    # dataset specifications
+    floors: [0, 1, 2, 3, 4]
+    devices:
+      - S20
+      - LG
+      - Galaxy
+      - OnePlus
+
+    # test data settings
+    test_devices:
+      - Galaxy
+
+models:
+
+  - name: mCEL
+    type: mCEL
+    backbone:
+      type: MLP
+      layers: [ 512 ]
+      dropout: 0.5
+      activation: relu
+    head:
+      classification:
+        type: MLP
+        layers: [512]
+        dropout: 0.25
+        activation: relu
+      regression:
+        type: MLP
+        layers: [512]
+        dropout: 0.25
+        activation: relu
+    params:
+      epochs: 50
+      batch_size: 32
+      lr: 0.001
+
+  - name: 3Dreg
+    type: 3D
+    backbone:
+      type: MLP
+      layers: [ 512 ]
+      dropout: 0.5
+      activation: relu
+    head:
+      type: MLP
+      layers: [ 512 ]
+      dropout: 0.25
+      activation: relu
+    params:
+      epochs: 50
+      batch_size: 32
+      lr: 0.001
+
+dir:
+  base: exp/gia_vslam/device/test_on_Galaxy/
+  result_file: metrics.pickle
+
