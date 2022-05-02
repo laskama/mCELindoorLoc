@@ -9,29 +9,38 @@ from utils.param_reader import ParamReader
 class BaseDataProvider:
 
     def __init__(self, params, dc: DatasetConnector):
+        # used for consistent train/test split
         self.seed = 1
 
+        # reference to dataset connector
         self.dc = dc
 
+        # unprocessed variables of dataset (will be accessed indirectly via dataset connector)
         self.rss = None
         self.pos = None
         self.floor = None
         self.time = None
         self.num_floors = None
 
+        # list of floorplan dimensions per floor
         self.floorplan_width = None
         self.floorplan_height = None
 
-        # variables used for NN
+        # data and labels that are used by model for training
+        # the goal of a specific data provider implementation is to set these two variables
+        # such that a call to model.fit(x, y) succeeds where x and y are obtained via the data provider
         self.x = None
         self.y = None
 
+        # split indices are used for obtaining the required partition (train/val/test) of the dataset
         # [{'train': [], 'val': [], 'test': [])]
         self._split_indices = None
-        self.num_folds = 1
 
+        # currently, only one train/test split (fold) is supported
+        self.num_folds = 1
         self.split_idx = 0
 
+        # reference to parameter reader that falls back to default value if parameter is not specified
         self.pr: ParamReader = ParamReader(params)
 
     def load_dataset(self):
@@ -144,7 +153,7 @@ class BaseDataProvider:
 
     def standardize_data(self, powed=False, standardize=False):
         if powed:
-            return self.normalizeX_powed_fast()
+            return self.normalize_powed()
         elif standardize:
             scaler = StandardScaler()
             self.x = scaler.fit_transform(self.rss)
@@ -155,7 +164,7 @@ class BaseDataProvider:
 
         return self
 
-    def normalizeX_powed_fast(self, b=2.71828):
+    def normalize_powed(self, b=2.71828):
         arr = self.rss
         res = np.copy(arr).astype(np.float)
 

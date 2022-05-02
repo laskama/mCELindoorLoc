@@ -1,6 +1,6 @@
 from data.gia_vslam_data_connector import GiaVSLAMdataConnector
 from data.mcel_data_provider import MCELdataProvider
-from data.three_d_data_provider import ThreeDdataProvider
+from data.reg_data_provider import RegDataProvider
 
 
 def get_data_provider(dataset_params, m_type):
@@ -42,7 +42,7 @@ def get_data_provider(dataset_params, m_type):
         dp = dp.set_labels(class_pad, reg_pad)
 
     elif m_type == '3D':
-        dp = ThreeDdataProvider(dataset_params['params'], dc=conn).load_dataset().generate_split_indices().generate_validation_indices()
+        dp = RegDataProvider(dataset_params['params'], dc=conn).load_dataset().generate_split_indices().generate_validation_indices()
         dp = dp.replace_missing_values().standardize_data(powed_scaling, std_scaling)
         dp = dp.set_labels(scale_labels=True)
 

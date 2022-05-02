@@ -1,8 +1,8 @@
 import tensorflow as tf
-import numpy as np
 
 from model.base_model import BaseModel
 from data.mcel_data_provider import MCELdataProvider
+from model.model_definition import get_model_from_yaml_definition
 
 
 class MCELmodel(BaseModel):
@@ -11,17 +11,20 @@ class MCELmodel(BaseModel):
         super(MCELmodel, self).__init__(model_params, data_provider, base_dir, model, model_name)
         self.dp = data_provider
 
-    def setup_model(self, model):
+    def setup_model(self, model_params):
 
-        pr = self.pr
+        input_dim = self.dp.get_input_dim()
+        output_dim = self.dp.get_output_dim()
+        num_grid_cells = output_dim[0]
 
-        num_grid_cells = self.dp.get_output_dim()[0]
+        # obtain the tensorflow model for the specified parameters
+        model = get_model_from_yaml_definition(model_params, input_dim, output_dim)
 
         model.compile(
             loss={'output_class': tf.keras.losses.categorical_crossentropy,
                   'output_reg': get_mcel_loss(int(num_grid_cells))},
             loss_weights={'output_class': 1.0, 'output_reg': 1.0},
-            optimizer=tf.keras.optimizers.Adam(learning_rate=pr.get_param('lr'))
+            optimizer=tf.keras.optimizers.Adam(learning_rate=self.pr.get_param('lr'))
         )
 
         self.model = model
@@ -33,21 +36,6 @@ class MCELmodel(BaseModel):
             self.model.load_weights(self.base_dir + self.model_name + ".hdf5")
 
         y_pred_grid, y_pred_box = self.model.predict(self.dp.get_x('test'))
-
-        # convert to same encoding scheme als DLB to apply similar conversion
-        # FROM:
-        #   y_pred_grid = (g_1, ..., g_G)
-        #   y_pred_box = (cx_1, cy_1, ..., cx_G, cy_G)
-        # TO: (setting w & h to 0, since only point estimation)
-        # merged = (cx_1, cy_1, w_1, h_1, g_1, ..., cx_G, cy_G, w_G, h_G, g_G)
-        y_pred_merged = np.zeros((len(y_pred_grid),
-                                  y_pred_box.shape[1] * 2 + int(
-                                      y_pred_grid.shape[1])))
-        for b in range(y_pred_grid.shape[1]):
-            y_pred_merged[:, b * 4 + b:(b + 1) * 4 + b] = \
-                np.concatenate((y_pred_box[:, b * 2:(b + 1) * 2],
-                                np.zeros((len(y_pred_box), 2))), axis=1)
-            y_pred_merged[:, (b + 1) * 4 + b] = y_pred_grid[:, b]
 
         metrics, polys, floor_pred = self.dp.calc_performance(
             y_pred_grid=y_pred_grid,

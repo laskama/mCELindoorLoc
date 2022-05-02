@@ -1,10 +1,7 @@
 import tensorflow as tf
 
 
-def get_model_from_yaml_definition(conf, input_dim, output_dim, **kwargs):
-
-    if conf['type'] == 'kNN':
-        return None
+def get_model_from_yaml_definition(conf, input_dim, output_dim):
 
     input = tf.keras.layers.Input(shape=input_dim, name='input')
     bb = input
@@ -63,14 +60,12 @@ def get_model_from_yaml_definition(conf, input_dim, output_dim, **kwargs):
 
         # regression head
         for l in h_conf['layers']:
-            # head = tf.keras.layers.Dense(l, activation=h_conf['activation'])(head)
             head = tf.keras.layers.Dense(l)(head)
             head = tf.keras.layers.Activation(activation=h_conf['activation'])(head)
 
             if 'dropout' in h_conf:
                 head = tf.keras.layers.Dropout(h_conf['dropout'])(head)
 
-        # output = tf.keras.layers.Dense(output_dim, activation='linear')(head)
         output = tf.keras.layers.Dense(output_dim)(head)
         output = tf.keras.layers.Activation('linear')(output)
 

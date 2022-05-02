@@ -27,7 +27,7 @@ def run_model(model, fit=True):
 
     metrics, polys, floor_pred = model.evaluate_model(load_weights=True, compute_error_vec=True)
 
-    m_print = {k: v for k, v in metrics.items() if k not in ['error_vec', 'acs']}
+    m_print = {k: v for k, v in metrics.items() if k not in ['error_vec']}
 
     print(m_print)
 
@@ -41,9 +41,7 @@ def execute_pipeline(model_params, dataset_params, base_dir, seed_val=1):
 
     dp = get_data_provider(dataset_params, m_type)
 
-    input_dim = dp.get_input_dim()
-
-    model = get_model(model_params, base_dir, dp, input_dim)
+    model = get_model(model_params, base_dir, dp)
 
     metrics, polys, floor_pred = run_model(model, fit=not model.pr.get_param('pretrained'))
 
@@ -82,7 +80,7 @@ def execute_pipelines(conf_file):
             metrics[model['name']] = m
 
         for k, m in metrics.items():
-            m_print = {k: v for k, v in m.items() if k not in ['error_vec', 'acs']}
+            m_print = {k: v for k, v in m.items() if k not in ['error_vec']}
             print("{}: {}".format(k, m_print))
 
         metrics_seed += [metrics]

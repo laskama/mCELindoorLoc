@@ -4,10 +4,10 @@ from sklearn.preprocessing import StandardScaler
 from data.base_data_provider import BaseDataProvider
 
 
-class ThreeDdataProvider(BaseDataProvider):
+class RegDataProvider(BaseDataProvider):
 
     def __init__(self, params, dc, floor_height=5):
-        super(ThreeDdataProvider, self).__init__(params, dc)
+        super(RegDataProvider, self).__init__(params, dc)
 
         self.pos_scaler: StandardScaler = None
         self.floor_height = floor_height

@@ -32,7 +32,7 @@ DEFAULT_PARAMS = {
     'lr': 0.001,
     'batch_size': 32,
     'epochs': 50,
-    'verbose': 0,
+    'verbose': 2,
     'val': 0.2,
     'pretrained': True
 
