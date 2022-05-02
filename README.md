@@ -13,7 +13,13 @@ demonstrated in the paper.
 
 To prevent large errors in case of failures of the grid cell classification head, we introduced the multi-cell encoding learning (m-CEL) technique.
 The network is supplied with several redundant encodings by letting the encoding grid slightly overlap. 
-![Test caption](img/mCEL.png)
+<p>
+  <img src="img/enc_1.png" width="24%"/>
+  <img src="img/enc_2.png" width="24%"/> 
+  <img src="img/enc_3.png" width="24%"/>
+  <img src="img/enc_4.png" width="24%"/>
+</p>
+![](img/enc_%5B14%5D_1.png)![](img/enc_%5B14%5D_1.png)
 Via m-CEL the network is guided towards also learning the alternative encoding, such that the regression head produces a reasonable estimate in case that the classification head classifies an alternative grid-cell. 
 This further improves the accuracy of the final position estimate.
 
