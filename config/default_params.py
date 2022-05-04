@@ -34,6 +34,6 @@ DEFAULT_PARAMS = {
     'epochs': 50,
     'verbose': 2,
     'val': 0.2,
-    'pretrained': True
+    'pretrained': False
 
 }

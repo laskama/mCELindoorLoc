@@ -89,7 +89,7 @@ def execute_pipelines(conf_file, visualize_predictions=False):
         metrics_seed += [metrics]
 
         if visualize_predictions:
-            visualize_output(model_polys, floor_preds[0], model_names, dp=dp, shuffle=True, seq_ids=[643, 720])
+            visualize_output(model_polys, floor_preds[0], model_names, dp=dp, shuffle=True)
 
     result_file = "metrics.pickle"
     if 'result_file' in d['dir']:

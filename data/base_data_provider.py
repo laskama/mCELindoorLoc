@@ -153,16 +153,18 @@ class BaseDataProvider:
         self.rss[self.rss == mis_val] = replace_val
         return self
 
-    def standardize_data(self, powed=False, standardize=False):
-        if powed:
+    def standardize_data(self, scaling_type='min_max'):
+        if scaling_type == 'powed':
             return self.normalize_powed()
-        elif standardize:
+        elif scaling_type == 'standardize':
             scaler = StandardScaler()
             self.x = scaler.fit_transform(self.rss)
-        else:
+        elif scaling_type == 'min_max':
             min_ap_val = np.min(self.rss)
             max_ap_val = np.max(self.rss)
             self.x = (self.rss - min_ap_val) / (max_ap_val - min_ap_val)
+        else:
+            raise NotImplementedError('Specified scaling type: {} is not implemented'.format(scaling_type))
 
         return self
 

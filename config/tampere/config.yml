@@ -1,0 +1,69 @@
+seed: [1234] # , 1235, 1236, 1237, 1238, 1239, 1240, 1241, 1242, 1243]
+
+data:
+  dataset: tampere
+  params:
+    val: 0.2
+
+    # grid encoding
+    grid_size: 20
+    padding_ratio: 0.5
+
+    #min_max, standard, powed
+    scaling: min_max
+
+    # ground truth construction for mCEL
+    class_pad: True
+    reg_pad: True
+    weighted_grid_labels: False
+
+models:
+
+# SHL backbone
+
+  - name: mCEL
+    type: mCEL
+    backbone:
+      type: MLP
+      layers: [ 512 ]
+      dropout: 0.5
+      activation: relu
+    head:
+      classification:
+        type: MLP
+        layers: [128]
+        dropout: 0.25
+        activation: relu
+      regression:
+        type: MLP
+        layers: [128]
+        dropout: 0.25
+        activation: relu
+    params:
+      epochs: 100
+      batch_size: 32
+      lr: 0.001
+      verbose: 0
+
+  - name: 3Dreg
+    type: 3D
+    backbone:
+      type: MLP
+      layers: [ 512 ]
+      dropout: 0.5
+      activation: relu
+    head:
+      type: MLP
+      layers: [ 128 ]
+      dropout: 0.25
+      activation: relu
+    params:
+      epochs: 100
+      batch_size: 32
+      lr: 0.001
+      verbose: 0
+
+dir:
+  base: exp/tampere/
+  result_file: metrics.pickle
+

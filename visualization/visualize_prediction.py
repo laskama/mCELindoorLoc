@@ -9,7 +9,14 @@ root = get_project_root()
 
 
 def visualize_output(polys, floors, model_names, dp: BaseDataProvider, shuffle=False, seq_ids=None):
-    img_base = root + "/datasets/giaIndoorLoc/floor_{}/floorplan.jpg"
+    dataset = dp.dc.get_dataset_identifier()
+    if dataset == 'gia_vslam':
+        img_base = root + "/datasets/giaIndoorLoc/floor_{}/floorplan.jpg"
+    elif dataset == 'tampere':
+        img_base = root + "/datasets/tampere/floorplan/{}OG.png"
+    else:
+        raise NotImplementedError('You have specified the --visualize_prediction flag, '
+                                  'but there is no visualization option for dataset: {}'.format(dataset))
 
     true_pos = dp.get_data(dp.pos, 'test')
 
@@ -37,7 +44,7 @@ def visualize_output(polys, floors, model_names, dp: BaseDataProvider, shuffle=F
             poly = mp[s_id]
             fp.draw_points(poly[0], poly[1], color=colors[idx], label=model_names[idx])
 
-        fp.set_title('Floor: {}'.format(f))
+        fp.set_title('Floor: {}'.format(dp.floors[f]))
         fp.axis.axis('off')
         fp.axis.legend()
 
