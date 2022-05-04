@@ -75,6 +75,8 @@ python pipeline.py -c path/to/config.yml --visualize_predictions
 For each prediction a plotting window such as  
 ![](img/example.png)
 will open. Once the window is closed, the predictions for the next fingerprint of the test dataset will be shown and so on.
+Visualization is only supported for the datasets that include a floorplan, which are the giaIndoorLoc and the Tampere dataset.
+The floorplan images of the Tampere dataset have been extracted from the original article [3] that was published under Creative Commons Attribution License.
 
 ### Reproduce results of VI-SLAM2tag paper
 
