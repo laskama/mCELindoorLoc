@@ -49,13 +49,13 @@ Installation via any virtual environment such as *virtualenv* or *conda* are is 
 ### Dataset integration
 
 The repository allows for training all models on various datasets. It provides access to the following datasets:
-- giaIndoorLoc [2]
-- Tampere dataset [3]
-- UJI dataset [4]
-- UTS dataset [5]
+- giaIndoorLoc [2] (available [here](https://www.dropbox.com/sh/gayegcskeyzc5pa/AAB1hSg3aHuBKAJmv5geqfKba?dl=0))
+- Tampere dataset [3] (available [here](https://zenodo.org/record/889798#.YnJC_hNBztU))
+- UJI dataset [4] (available [here](https://archive.ics.uci.edu/ml/datasets/ujiindoorloc))
+- UTS dataset [5] (available [here](https://github.com/XudongSong/CNNLoc-Access/tree/master/UTSIndoorLoc))
 
-Please inspect the provided example config files inside the ```config``` folder for details on how to use them.
-For training the network on the giaIndoorLoc dataset, it has to be downloaded [here](https://www.dropbox.com/sh/gayegcskeyzc5pa/AAB1hSg3aHuBKAJmv5geqfKba?dl=0) and placed in the ```datasets``` folder.
+The downloaded datasets have to placed in the corresponding ```datasets/{dataset}/``` folders.
+Please inspect the provided example config files inside the ```config``` folder for details on how to select the downloaded datasets for model training.
 
 ### Train and evaluate network
 
@@ -107,7 +107,7 @@ Please study the documented source code for details.
 
 [1] M. Laska und J. Blankenbach, „Multi-Task Neural Network for Position Estimation in Large-Scale Indoor Environments“, IEEE Access, Bd. 10, S. 26024–26032, 2022, doi: 10.1109/ACCESS.2022.3156579.
 
-[2] TODO
+[2] Submitted to IPIN 22
 
 [3] E. Lohan et al., „Wi-Fi Crowdsourced Fingerprinting Dataset for Indoor Positioning“, Data, Bd. 2, Nr. 4, S. 32, Okt. 2017, doi: 10.3390/data2040032.
 
