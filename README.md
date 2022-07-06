@@ -81,7 +81,7 @@ already included in the repository.
 
 ### Reproduce results of VI-SLAM2tag paper
 
-In order to reproduce the results from the VI-SLAM2tag paper [2], the pre-trained model weights have to be downloaded [here](https://www.dropbox.com/sh/m6m0ar69t8pftg6/AAAi18FfTR93pIJGJE8Uq8pga?dl=0), place the 
+In order to reproduce the results from the VI-SLAM2tag paper [2], the pre-trained model weights have to be downloaded [DOI:10.5281/zenodo.6801310](https://doi.org/10.5281/zenodo.6801310), place the 
 ```exp``` folder within the root of the directory and execute the script ```run_exp.sh```.
 You can also set the ```pretrained: False``` in the ```default_params.py``` file and train the model from scratch.
 Note that this might result in slightly different results as the training is dependent on the hardware and the tensorflow version.
