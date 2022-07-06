@@ -51,6 +51,7 @@ models:
       epochs: 50
       batch_size: 32
       lr: 0.001
+      pretrained: True
 
   - name: 3Dreg
     type: 3D
@@ -68,6 +69,7 @@ models:
       epochs: 50
       batch_size: 32
       lr: 0.001
+      pretrained: True
 
 dir:
   base: exp/gia_vslam/device/random_split/

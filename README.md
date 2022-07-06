@@ -49,7 +49,7 @@ Installation via any virtual environment such as *virtualenv* or *conda* are is 
 ### Dataset integration
 
 The repository allows for training all models on various datasets. It provides access to the following datasets:
-- giaIndoorLoc [2] (available [here](https://www.dropbox.com/sh/gayegcskeyzc5pa/AAB1hSg3aHuBKAJmv5geqfKba?dl=0))
+- giaIndoorLoc [2] (available [DOI:10.5281/zenodo.6801310](https://doi.org/10.5281/zenodo.6801310))
 - Tampere dataset [3] (available [here](https://zenodo.org/record/889798#.YnJC_hNBztU))
 - UJI dataset [4] (available [here](https://archive.ics.uci.edu/ml/datasets/ujiindoorloc))
 - UTS dataset [5] (available [here](https://github.com/XudongSong/CNNLoc-Access/tree/master/UTSIndoorLoc))
@@ -76,7 +76,8 @@ For each prediction a plotting window such as
 ![](img/example.png)
 will open. Once the window is closed, the predictions for the next fingerprint of the test dataset will be shown and so on.
 Visualization is only supported for the datasets that include a floorplan, which are the giaIndoorLoc and the Tampere dataset.
-The floorplan images of the Tampere dataset have been extracted from the original article [3] that was published under Creative Commons Attribution License.
+The floorplan images of the Tampere dataset have been extracted from the original article [3] that was published under Creative Commons Attribution License and are
+already included in the repository.
 
 ### Reproduce results of VI-SLAM2tag paper
 
@@ -107,7 +108,7 @@ Please study the documented source code for details.
 
 [1] M. Laska und J. Blankenbach, „Multi-Task Neural Network for Position Estimation in Large-Scale Indoor Environments“, IEEE Access, Bd. 10, S. 26024–26032, 2022, doi: 10.1109/ACCESS.2022.3156579.
 
-[2] Submitted to IPIN 22
+[2] M. Laska et al., „VI-SLAM2tag: Low-Effort Labeled Dataset Collection for Fingerprinting-Based Indoor Localization“, to appear at IPIN 22.
 
 [3] E. Lohan et al., „Wi-Fi Crowdsourced Fingerprinting Dataset for Indoor Positioning“, Data, Bd. 2, Nr. 4, S. 32, Okt. 2017, doi: 10.3390/data2040032.
 
